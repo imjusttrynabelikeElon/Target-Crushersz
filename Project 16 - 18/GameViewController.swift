@@ -14,44 +14,18 @@ class GameViewController: UIViewController {
     // now all the targets are tappable
     // next see why your score is not updating when the green and red targets are tapped.
     var imageView: UIImageView!
-    var score = 0 {
-        didSet {
-            scoreLabel.text = "Score: \(score)"
-        }
-    }
+ 
     //  let timeIntervalRange = 1.0...3.0 // in seconds
     // let speedRange = 50...100 // in p
     
     // two more big problems... detect when a user taps the screen when a target is at the middle of the slot... aka the red dot only.
-    var scoreLabel: UILabel!
-    // ...
-    let targetSize: CGFloat = 50
-    
-    var tapGestures: [UIImageView: UITapGestureRecognizer] = [:]
-
     
     // last randomise the targets for each row to side back and forth at diffrent times and speeds giving a user points when they hit green targets on the red dots and make them lose points when they hit the red targets by mistake
    
     
-    var imageViewCopy: UIImageView!
-    var currentAnimation = 0
-    var redd = UIImageView(image: UIImage(named: "redTarget"))
-    var imageViewRed: UIImageView!
-    var imageViewRedBig: UIImageView!
-    var imageViewGreenBig: UIImageView!
-    var imageViewRedBigg: UIImageView!
-    var imageViewGreenBigg: UIImageView!
-    var imageViewRedBiggg: UIImageView!
-    var imageViewGreenBiggg: UIImageView!
-    var imageViewRedSmall: UIImageView!
-    var imageViewGreenSmall: UIImageView!
-    var isAnimating = false
-    
+ 
     var imageViews: [UIImageView] = []
    
-    var greenTargets: [UIImageView] = []
-    
-    var redTargets: [UIImageView] = []
     // this is the amount of time
     // do some code so for all the image Views with different shapes and sizes so that for each row they use each imageView at random times and different speeds, most likley using a timer.
     override func viewDidLoad() {

@@ -8,7 +8,7 @@
 import SpriteKit
 import UIKit
 import AVFoundation
-
+// next connect the home screen and the games done. maybe even show the player high score as as well on the home screen
 // the ui goes in the gamescene
 // next add a one min timer to the game and after it ends the game stops and it is over.
 
@@ -59,12 +59,23 @@ class GameScene: SKScene {
     var timerLabel: UILabel!
     var audioPlayer: AVAudioPlayer?
     var aPlayer: AVAudioPlayer?
+    var aaPlayer: AVAudioPlayer?
+    var PlayNow = false
+    var homePageCreated = false
    // var score = 0 {
   //     didSet {
   //          gameScore.text = "Score: \(score)"
    //     }
  
     // next she why the redDots are not dectectable...
+    
+     
+    
+  
+
+ 
+    
+    // now finsh making the Front screen... its 1 2 3
     func createSlot(at position: CGPoint, redDotName: String) {
         let slot = shotSlot()
         slot.configure(at: position)
@@ -77,19 +88,20 @@ class GameScene: SKScene {
         redDot.name = redDotName
         redDot.size = CGSize(width: 50, height: 50)
         
-        addChild(redDot)
+     //   addChild(redDot)
     }
 
-
+  
     override func didMove(to view: SKView) {
-        
+    
      
-        
+        createHomePage()
         
         
         setupAudioPlayer()
       setupAudioPlayer2()
-     
+     setupAudioPlayer3()
+        
         button = SKLabelNode()
         button.text = "Tap To Play"
         button.position = CGPoint(x: 210, y: 90)
@@ -107,7 +119,7 @@ class GameScene: SKScene {
    //  button.isUserInteractionEnabled = true
      
 
-     addChild(button)
+   //  addChild(button)
         
         
         let buttonFrame = SKShapeNode(rectOf: CGSize(width: button.frame.width + 90, height: button.frame.height + 90), cornerRadius: 5)
@@ -116,7 +128,7 @@ class GameScene: SKScene {
         buttonFrame.lineWidth = 2
         buttonFrame.position = button.position
                       buttonFrame.zPosition = 1
-     addChild(buttonFrame)
+  //   addChild(buttonFrame)
         
       //  button.isUserInteractionEnabled = true
             
@@ -128,7 +140,7 @@ class GameScene: SKScene {
         backGround.scale(to: CGSizeMake(1024, 768))
          // I used line 21 to strech the image out to fix my scrrens size because I know I set my screen size to 1024 in the GameScene UI
         
-        addChild(backGround)
+    //    addChild(backGround)
         gameScore = SKLabelNode(fontNamed: "Chalkduster")
         gameScore.text = "Score: 0"
         gameScore.position = CGPoint(x: 480, y: 70)
@@ -155,7 +167,7 @@ class GameScene: SKScene {
             scoreLabel.horizontalAlignmentMode = .center
             scoreLabel.verticalAlignmentMode = .top
             scoreLabel.position = CGPoint(x: size.width/2, y: size.height - 50)
-            addChild(scoreLabel)
+        //    addChild(scoreLabel)
             
      
             // Add red targets
@@ -167,7 +179,7 @@ class GameScene: SKScene {
                 redTarget.zPosition = 111
                 redTarget.name = "redTarget"
                
-                addChild(redTarget)
+         //       addChild(redTarget)
                 redTargets.append(redTarget)
             }
         
@@ -180,7 +192,7 @@ class GameScene: SKScene {
             redTargett.name = "redTargets"
        
             //    redTargett.isUserInteractionEnabled = true
-            addChild(redTargett)
+       //     addChild(redTargett)
             redTargets.append(redTargett)
         }
 
@@ -197,7 +209,7 @@ class GameScene: SKScene {
              
          //       greenTarget.isUserInteractionEnabled = true
                 // keep these off isUserInteractionEnabled... all of themmm
-                addChild(greenTarget)
+       //         addChild(greenTarget)
                 greenTargets.append(greenTarget)
             }
         
@@ -214,7 +226,7 @@ class GameScene: SKScene {
               timerLabel.center = CGPoint(x: view.frame.size.width / 2, y: 100)
               timerLabel.textAlignment = .center
               timerLabel.font = UIFont.systemFont(ofSize: 40)
-              view.addSubview(timerLabel) // Add the timer label to the view
+         //     view.addSubview(timerLabel) // Add the timer label to the view
         
         
         sprite = SKSpriteNode(imageNamed: "slots")
@@ -223,6 +235,121 @@ class GameScene: SKScene {
       
     }
     
+    func createHomePage() {
+      let backGroundd = SKSpriteNode(imageNamed: "background")
+        backGroundd.position = CGPoint(x: 512, y: 384)
+        backGroundd.blendMode = .replace
+        backGroundd.zPosition = -1
+        backGroundd.scale(to: CGSizeMake(1024, 768))
+        addChild(backGroundd)
+        if homePageCreated {
+         
+            aaPlayer?.play()
+        }
+        
+        let intro = SKLabelNode(text: "Welcome To TargetCrushers! Created By Karon Bell!")
+        intro.fontSize = 26
+        intro.fontName = "Verdana-BoldItalic"
+        intro.color = .white
+        intro.fontColor = .orange
+        intro.verticalAlignmentMode = .center
+        intro.position = CGPoint(x: 490, y: 650)
+        intro.zPosition = 99
+        addChild(intro)
+      
+        let frame = SKShapeNode(rectOf: CGSize(width: intro.frame.width + 20, height: intro.frame.height + 20), cornerRadius: 10)
+        frame.position = CGPoint(x: 490, y: 650)
+        frame.fillColor = .white
+        frame.alpha = 2
+        frame.zPosition = 98
+
+        addChild(frame)
+      
+        let BigTarget = SKSpriteNode(imageNamed: "redTarget")
+        BigTarget.zPosition = 2
+       BigTarget.scale(to: CGSizeMake(280, 234))
+       
+        BigTarget.position = CGPoint(x: 490, y: 370)
+        
+   
+        addChild(BigTarget)
+        
+        let blinkAction = SKAction.sequence([
+            SKAction.fadeAlpha(to: 0.2, duration: 0.5),
+            SKAction.wait(forDuration: 0.5),
+            SKAction.fadeAlpha(to: 1.0, duration: 0.5),
+            SKAction.wait(forDuration: 0.5)
+        ])
+
+        // run the blinkAction repeatedly on the target node
+        BigTarget.run(SKAction.repeatForever(blinkAction))
+
+      
+        
+        let rotateAction = SKAction.rotate(byAngle: CGFloat.pi * 2, duration: 1.0)
+        BigTarget.run(SKAction.repeatForever(rotateAction))
+        
+        
+        let shadowNode = SKShapeNode(circleOfRadius: BigTarget.size.width/1.9)
+        shadowNode.fillColor = .clear
+        shadowNode.alpha = 0.5
+        shadowNode.zPosition = BigTarget.zPosition - 1
+        shadowNode.position = BigTarget.position
+        addChild(shadowNode)
+
+        let shadowOffset = CGSize(width: 5, height: -5)
+        shadowNode.position = CGPoint(x: shadowNode.position.x + shadowOffset.width, y: shadowNode.position.y + shadowOffset.height)
+
+        shadowNode.setScale(1.1)
+
+        let playNowButton = SKLabelNode(text: "Tap Red Target To Start a Game")
+        playNowButton.fontSize = 26
+        playNowButton.fontName = "Chalkduster"
+        playNowButton.color = .white
+        playNowButton.fontColor = .orange
+        playNowButton.position = CGPoint(x: 490, y: 571)
+        playNowButton.verticalAlignmentMode = .center
+        playNowButton.zPosition = 99
+        addChild(playNowButton)
+        
+        let frameee = SKShapeNode(rectOf: CGSize(width: 533, height: intro.frame.height + 20), cornerRadius: 10)
+        frameee.position = CGPoint(x: 490, y: 571)
+        frameee.fillColor = .white
+        frameee.alpha = 2
+        frameee.zPosition = 98
+        addChild(frameee)
+        
+        let founder = SKLabelNode(text: "Founded by Karon Bell")
+       founder.fontSize = 26
+       founder.fontName = "Verdana-BoldItalic"
+       founder.color = .white
+       founder.fontColor = .orange
+       founder.position = CGPoint(x: 490, y: 111)
+        founder.verticalAlignmentMode = .center
+       founder.zPosition = 99
+        addChild(founder)
+    let framee = SKShapeNode(rectOf: CGSize(width: 433, height: intro.frame.height + 20), cornerRadius: 10)
+        framee.position = CGPoint(x: 490, y: 111)
+        framee.fillColor = .white
+        framee.alpha = 2
+        framee.zPosition = 98
+
+        addChild(framee)
+       
+        
+        
+        if let path = Bundle.main.path(forResource: "intro", ofType: "mp3") {
+               let url = URL(fileURLWithPath: path)
+               do {
+                   aaPlayer = try AVAudioPlayer(contentsOf: url)
+                   aaPlayer?.play()
+               } catch {
+                   print("Error loading audio file")
+               }
+           }
+    }
+    
+
     
     func moveTargets() {
         let screenSize = UIScreen.main.bounds.size
@@ -500,6 +627,19 @@ class GameScene: SKScene {
        }
     func setupAudioPlayer2() {
            guard let url = Bundle.main.url(forResource: "chill", withExtension: "mp3") else {
+               return
+           }
+           
+           do {
+               aPlayer = try AVAudioPlayer(contentsOf: url)
+               aPlayer?.prepareToPlay()
+           } catch {
+               print("Error loading audio file: \(error)")
+           }
+       }
+    
+    func setupAudioPlayer3() {
+           guard let url = Bundle.main.url(forResource: "intro", withExtension: "mp3") else {
                return
            }
            

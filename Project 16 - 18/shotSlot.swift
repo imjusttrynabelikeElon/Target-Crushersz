@@ -40,7 +40,7 @@ class shotSlot: SKNode {
         sprite.scale(to: CGSizeMake(220, 140))
         //  sprite.isUserInteractionEnabled = true
         sprite.zPosition = 1
-        addChild(sprite)
+     //   addChild(sprite)
         
         
         

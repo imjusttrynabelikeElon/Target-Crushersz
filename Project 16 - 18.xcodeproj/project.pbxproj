@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C91ED77029AD430E00008848 /* intro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C91ED76F29AD430D00008848 /* intro.mp3 */; };
 		C943E61F29AAE10B00DBAEFB /* chill.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9A7D72329AADF3900EA5157 /* chill.mp3 */; };
 		C943E62029AAE12600DBAEFB /* cute.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9A7D71F29AA9F2900EA5157 /* cute.mp3 */; };
-		C9587FA1299F4F0C00567C08 /* imageViewGreenBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9587FA0299F4F0C00567C08 /* imageViewGreenBig.swift */; };
 		C96F73A7299C661D009DEBEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F73A6299C661D009DEBEB /* AppDelegate.swift */; };
 		C96F73A9299C661D009DEBEB /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C96F73A8299C661D009DEBEB /* GameScene.sks */; };
 		C96F73AD299C661D009DEBEB /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F73AC299C661D009DEBEB /* GameScene.swift */; };
@@ -23,7 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C9587FA0299F4F0C00567C08 /* imageViewGreenBig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imageViewGreenBig.swift; sourceTree = "<group>"; };
+		C91ED76F29AD430D00008848 /* intro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = intro.mp3; sourceTree = "<group>"; };
 		C96F73A3299C661D009DEBEB /* Project 16 - 18.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project 16 - 18.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96F73A6299C661D009DEBEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C96F73A8299C661D009DEBEB /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -53,7 +53,6 @@
 		C96F739A299C661D009DEBEB = {
 			isa = PBXGroup;
 			children = (
-				C9587FA0299F4F0C00567C08 /* imageViewGreenBig.swift */,
 				C96F73A5299C661D009DEBEB /* Project 16 - 18 */,
 				C96F73A4299C661D009DEBEB /* Products */,
 			);
@@ -81,6 +80,7 @@
 				C96F73B3299C661F009DEBEB /* Assets.xcassets */,
 				C9A7D71F29AA9F2900EA5157 /* cute.mp3 */,
 				C9A7D72329AADF3900EA5157 /* chill.mp3 */,
+				C91ED76F29AD430D00008848 /* intro.mp3 */,
 				C96F73B5299C661F009DEBEB /* LaunchScreen.storyboard */,
 			);
 			path = "Project 16 - 18";
@@ -148,6 +148,7 @@
 				C96F73A9299C661D009DEBEB /* GameScene.sks in Resources */,
 				C943E61F29AAE10B00DBAEFB /* chill.mp3 in Resources */,
 				C96F73B4299C661F009DEBEB /* Assets.xcassets in Resources */,
+				C91ED77029AD430E00008848 /* intro.mp3 in Resources */,
 				C96F73B7299C661F009DEBEB /* LaunchScreen.storyboard in Resources */,
 				C943E62029AAE12600DBAEFB /* cute.mp3 in Resources */,
 			);
@@ -164,7 +165,6 @@
 				C96F73AD299C661D009DEBEB /* GameScene.swift in Sources */,
 				C96F73BE299C8A0E009DEBEB /* shotSlot.swift in Sources */,
 				C96F73AF299C661D009DEBEB /* GameViewController.swift in Sources */,
-				C9587FA1299F4F0C00567C08 /* imageViewGreenBig.swift in Sources */,
 				C96F73A7299C661D009DEBEB /* AppDelegate.swift in Sources */,
 				C96F73C2299D6E83009DEBEB /* redSlot.swift in Sources */,
 			);
