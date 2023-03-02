@@ -180,9 +180,9 @@ class GameScene: SKScene {
         
         setupAudioPlayer()
       setupAudioPlayer2()
-     setupAudioPlayer3()
+
       
-       
+     
       
      
       
@@ -412,7 +412,9 @@ class GameScene: SKScene {
             scoreLabel.position = CGPoint(x: 220, y: size.height - 50)
         //    addChild(scoreLabel)
             
-     highScoreLabel = SKLabelNode(text: "High Score: \(highScore)")
+     highScoreLabel = SKLabelNode(text: "High Scoree: \(highScore)")
+        highScoreLabel.text = "New high score: \(UserDefaults.standard.integer(forKey: "highScore"))"
+
        highScoreLabel.fontSize = 26
        highScoreLabel.fontName = "HelveticaNeue-Bold"
        highScoreLabel.horizontalAlignmentMode = .center
@@ -602,7 +604,7 @@ class GameScene: SKScene {
        
         
         
-        if let path = Bundle.main.path(forResource: "intro", ofType: "mp3") {
+        if let path = Bundle.main.path(forResource: "MJ", ofType: "mp3") {
                let url = URL(fileURLWithPath: path)
                do {
                    aaPlayer = try AVAudioPlayer(contentsOf: url)
@@ -818,7 +820,7 @@ class GameScene: SKScene {
             // Start the game
          
             isPlaying = true
-            aPlayer?.play()
+      //      aPlayer?.play()
             print("Tap to play!")
             isPaused = false // toggle the paused state
             button.text = "Pause Game"
@@ -841,7 +843,7 @@ class GameScene: SKScene {
                 // this puts the timer on the screen and makes it work correctly
                 self.remainingTime -= 1
               //  self.timerLabel.text = "\(self.remainingTime)"
-                if self.remainingTime == 54 {
+                if self.remainingTime == 0 {
                 
                     self.endGame()
                     //  self.resetTimer()
@@ -893,6 +895,7 @@ class GameScene: SKScene {
         isPlaying = false
         isPaused = true
         timerLabel.text = "Game Over! Score: \(score)"
+     
         audioPlayer?.play()
         aPlayer?.stop()
         moveTimer?.invalidate()
@@ -1005,7 +1008,7 @@ class GameScene: SKScene {
            }
        }
     func setupAudioPlayer2() {
-           guard let url = Bundle.main.url(forResource: "chill", withExtension: "mp3") else {
+           guard let url = Bundle.main.url(forResource: "MJ", withExtension: "mp3") else {
                return
            }
            
@@ -1017,19 +1020,7 @@ class GameScene: SKScene {
            }
        }
     
-    func setupAudioPlayer3() {
-           guard let url = Bundle.main.url(forResource: "intro", withExtension: "mp3") else {
-               return
-           }
-           
-           do {
-               aPlayer = try AVAudioPlayer(contentsOf: url)
-               aPlayer?.prepareToPlay()
-           } catch {
-               print("Error loading audio file: \(error)")
-           }
-       }
-       
+   
        // ...
    
 
