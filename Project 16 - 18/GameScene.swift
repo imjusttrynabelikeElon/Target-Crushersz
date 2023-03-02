@@ -894,8 +894,12 @@ class GameScene: SKScene {
     func endGame() {
         isPlaying = false
         isPaused = true
-        timerLabel.text = "Game Over! Score: \(score)"
+        if isPaused {
+            button.text = "Play Again"
+        }
      
+        timerLabel.text = "Game Over! Score: \(score)"
+     resetTimer()
         audioPlayer?.play()
         aPlayer?.stop()
         moveTimer?.invalidate()
