@@ -50,8 +50,9 @@ class GameScene: SKScene {
     var isAnimating = false
     var selectedSlot: SKNode?
     var button: SKLabelNode!
+    var highScoreLabel: SKLabelNode!
     var redDott: SKSpriteNode!
-    
+    var highScore = 0
     var isGameRunning = false
     var scoreLabel: SKLabelNode!
       var redTargets: [SKSpriteNode] = []
@@ -88,6 +89,9 @@ class GameScene: SKScene {
     let red12   = SKSpriteNode(imageNamed: "redTarget")
     let red13   = SKSpriteNode(imageNamed: "redTarget")
     let red14   = SKSpriteNode(imageNamed: "redTarget")
+    var redDotNodes: [SKNode] = []
+
+  
     let backGroundd = SKSpriteNode(imageNamed: "background")
     let intro = SKLabelNode(text: "Welcome To TargetCrushers! Created By Karon Bell!")
     let playNowButton = SKLabelNode(text: "Tap Red Target To Start a Game")
@@ -98,7 +102,7 @@ class GameScene: SKScene {
     var fframee: SKShapeNode!
     let targeet = SKSpriteNode(imageNamed: "greenTarget")
     let targeett = targetSlotRed()
-    var redDottt: SKSpriteNode!
+   // var redDottt: SKSpriteNode!
     let slot =  shotSlot()
    // var score = 0 {
   //     didSet {
@@ -126,7 +130,8 @@ class GameScene: SKScene {
             
             
             
-            scoreLabel = SKLabelNode(text: "Score: \(score)")
+            scoreLabel = SKLabelNode(text: "Scoreee: \(score)")
+            
             // let scoreLabel = SKLabelNode(text: "Score: \(score)")
             self.position = position
             sprite.name = "shotSlotNode"
@@ -148,27 +153,22 @@ class GameScene: SKScene {
         
     }
         
-    
-    func createSlot(at position: CGPoint, redDotName: String) -> (SKNode, SKSpriteNode?) {
+    func createSlot(at position: CGPoint, slotNumber: Int) -> (SKNode, SKSpriteNode) {
         let slot = ShotSlot()
         slot.configure(at: position)
         
-   
-        if let existingNode = slot.childNode(withName: redDotName) as? SKSpriteNode {
-            redDottt = existingNode
+        let redDot: SKSpriteNode
+        if let existingNode = childNode(withName: "redDot\(slotNumber)") as? SKSpriteNode {
+            redDot = existingNode
         } else {
-            redDottt = SKSpriteNode(color: .red, size: CGSize(width: 80, height: 30))
-            redDottt!.name = redDotName
-            redDottt!.size = CGSize(width: 50, height: 50)
-            redDottt!.position = CGPoint(x: 0, y: 0)
-
-            redDottt!.zPosition = 40
-            
-       //     slot.addChild(redDotttt!)
-            // its the red Dot thats the problen
+            redDot = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
+            redDot.name = "redDot\(slotNumber)"
+            redDot.position = position
+            redDot.zPosition = 40
+            addChild(redDot)
         }
         
-        return (slot, redDottt)
+        return (slot, redDot)
     }
 
   
@@ -202,7 +202,7 @@ class GameScene: SKScene {
 
 
         red2.size = CGSize(width: 80, height: 80)
-        red2.position = CGPoint(x: size.width/2 - 260, y: size.height/2)
+        red2.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red2.isUserInteractionEnabled = true
         red2.zPosition = 103
         red2.name = "redTarget2"
@@ -210,7 +210,7 @@ class GameScene: SKScene {
 
 
         red3.size = CGSize(width: 80, height: 80)
-        red3.position = CGPoint(x: size.width/2 - 270, y: size.height/2)
+        red3.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red3.isUserInteractionEnabled = true
         red3.zPosition = 104
         red3.name = "redTarget3"
@@ -218,7 +218,7 @@ class GameScene: SKScene {
 
 
         red4.size = CGSize(width: 80, height: 80)
-        red4.position = CGPoint(x: size.width/2 - 230, y: size.height/2)
+        red4.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red4.isUserInteractionEnabled = true
         red4.zPosition = 105
         red4.name = "redTarget4"
@@ -226,7 +226,7 @@ class GameScene: SKScene {
 
 
         red5.size = CGSize(width: 80, height: 80)
-        red5.position = CGPoint(x: size.width/2 - 220, y: size.height/2)
+        red5.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red5.isUserInteractionEnabled = true
         red5.zPosition = 106
         red5.name = "redTarget5"
@@ -234,7 +234,7 @@ class GameScene: SKScene {
 
 
         red6.size = CGSize(width: 80, height: 80)
-        red6.position = CGPoint(x: size.width/2 - 210, y: size.height/2)
+        red6.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red6.isUserInteractionEnabled = true
         red6.zPosition = 107
         red6.name = "redTarget6"
@@ -242,7 +242,7 @@ class GameScene: SKScene {
 
 
         red7.size = CGSize(width: 80, height: 80)
-        red7.position = CGPoint(x: size.width/2 - 280, y: size.height/2)
+        red7.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red7.isUserInteractionEnabled = true
         red7.zPosition = 108
         red7.name = "redTarget7"
@@ -250,7 +250,7 @@ class GameScene: SKScene {
 
 
         red8.size = CGSize(width: 80, height: 80)
-        red8.position = CGPoint(x: size.width/2 - 230, y: size.height/2)
+        red8.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red8.isUserInteractionEnabled = true
         red8.zPosition = 109
         red8.name = "redTarget8"
@@ -258,7 +258,7 @@ class GameScene: SKScene {
 
 
         red9.size = CGSize(width: 80, height: 80)
-        red9.position = CGPoint(x: size.width/2 - 270, y: size.height/2)
+        red9.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red9.isUserInteractionEnabled = true
         red9.zPosition = 110
         red9.name = "redTarget9"
@@ -266,7 +266,7 @@ class GameScene: SKScene {
 
 
         red10.size = CGSize(width: 80, height: 80)
-        red10.position = CGPoint(x: size.width/2 - 280, y: size.height/2)
+        red10.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red10.isUserInteractionEnabled = true
         red10.zPosition = 111
         red10.name = "redTarget10"
@@ -274,10 +274,10 @@ class GameScene: SKScene {
 
 
         red11.size = CGSize(width: 80, height: 80)
-        red11.position = CGPoint(x: size.width/2 - 256, y: size.height/2)
+        red11.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         // red11.isUserInteractionEnabled = true
         red11.zPosition = 112
-        red11.name = "redTarget11"
+        red11.name = "redTarget31"
         redTargets.append(red11)
 
         
@@ -288,25 +288,25 @@ class GameScene: SKScene {
     
    
         red12.size = CGSize(width: 110, height: 80)
-        red12.position = CGPoint(x: size.width/2 - 275, y: size.height/2)
+        red12.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         red12.zPosition = 123
-        red12.name = "redTarget14"
+        red12.name = "redTarget9"
         redTargets.append(red12)
 
         red13.size = CGSize(width: 110, height: 80)
-        red13.position = CGPoint(x: size.width/2 - 235, y: size.height/2)
+        red13.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         red13.zPosition = 119
-        red13.name = "redTarget15"
+        red13.name = "redTarget11"
         redTargets.append(red13)
 
         red14.size = CGSize(width: 110, height: 80)
-        red14.position = CGPoint(x: size.width/2 - 285, y: size.height/2)
+        red14.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
         red14.zPosition = 118
         red14.name = "redTarget12"
         redTargets.append(red14)
 
         redTargett.size = CGSize(width: 110, height: 80)
-        redTargett.position = CGPoint(x: size.width/2 - 248, y: size.height/2)
+        redTargett.position = CGPoint(x: size.width/2 - 210, y: size.height/2)
         redTargett.zPosition = 117
         redTargett.name = "redTarget13"
         redTargets.append(redTargett)
@@ -404,14 +404,21 @@ class GameScene: SKScene {
         
         // Add score label
             scoreLabel = SKLabelNode(text: "Score: \(score)")
-            scoreLabel.fontSize = 24
+            scoreLabel.fontSize = 26
             scoreLabel.fontName = "HelveticaNeue-Bold"
             scoreLabel.horizontalAlignmentMode = .center
             scoreLabel.verticalAlignmentMode = .top
-            scoreLabel.position = CGPoint(x: size.width/2, y: size.height - 50)
+  
+            scoreLabel.position = CGPoint(x: 220, y: size.height - 50)
         //    addChild(scoreLabel)
             
-     
+     highScoreLabel = SKLabelNode(text: "High Score: \(highScore)")
+       highScoreLabel.fontSize = 26
+       highScoreLabel.fontName = "HelveticaNeue-Bold"
+       highScoreLabel.horizontalAlignmentMode = .center
+       highScoreLabel.verticalAlignmentMode = .top
+        highScoreLabel.position = CGPoint(x: 766, y: size.height - 50)
+
             // Add red targets
         
      
@@ -420,10 +427,13 @@ class GameScene: SKScene {
    
     
  
-        timerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 399, height: 63))
+        timerLabel = UILabel(frame: CGRect(x: 490, y: 890, width: 399, height: 63))
+        timerLabel.center = CGPoint(x: 610, y: 300)
         timerLabel.textColor = .black
         timerLabel.layer.zPosition = -2
         timerLabel.backgroundColor = .white
+     
+
    
         // Initialize the timer label
         
@@ -439,7 +449,18 @@ class GameScene: SKScene {
              // addChild(sprite)
       
         
-     
+        for i in 0..<3 {
+            let (slot1, redDott1) = createSlot(at: CGPoint(x: 120 + (i * 370), y: 560), slotNumber: i + 1)
+            let (slot2, redDott2) = createSlot(at: CGPoint(x: 120 + (i * 370), y: 370), slotNumber: i + 4)
+            let (slot3, redDott3) = createSlot(at: CGPoint(x: 120 + (i * 370), y: 200), slotNumber: i + 7)
+            addChild(slot1)
+            addChild(slot2)
+            addChild(slot3)
+            redDotNodes.append(redDott1)
+            redDotNodes.append(redDott2)
+            redDotNodes.append(redDott3)
+        }
+
                         
                      
                  //       greenTarget.isUserInteractionEnabled = true
@@ -468,7 +489,7 @@ class GameScene: SKScene {
     
         
         
-      //  moveTimer?.fire()
+        moveTimer?.fire()
         
   
 
@@ -547,6 +568,7 @@ class GameScene: SKScene {
 
       
         playNowButton.fontSize = 26
+        playNowButton.fontName = ""
         playNowButton.color = .white
         playNowButton.fontColor = .orange
         playNowButton.position = CGPoint(x: 490, y: 571)
@@ -589,6 +611,7 @@ class GameScene: SKScene {
                    print("Error loading audio file")
                }
            }
+        
     }
     
 
@@ -624,33 +647,40 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch in touches {
-            
             let location = touch.location(in: self)
             
-            let redDotNode = nodes(at: location).first(where: { $0.name?.hasPrefix("redDott") == true })
-            print(greenTargets.count)
-            print(redTargets.count)
-            if let redDotNode = redDotNode {
+            
+            
+            
+            let tappedNode = nodes(at: location).first(where: { redDotNodes.contains($0) })
+            
+            if let redDotNode = tappedNode {
+                // handle touch on red dot here
+                
                 print("Tapped on red dot")
-                for greenTargetNode in greenTargets  {
+                
+                for greenTargetNode in greenTargets {
                     if greenTargetNode.contains(redDotNode.position) {
                         score += 1
                         print("Green target tapped at red dot")
+                        scoreLabel.text = "Score: \(score)"
+                        print(score)
                     }
                 }
+                
                 for redTargetNode in redTargets {
                     if redTargetNode.contains(redDotNode.position) {
                         score -= 1
                         print("Red target tapped at red dot")
+                        scoreLabel.text = "Score: \(score)"
+                        print(score)
                     }
                 }
-                scoreLabel.text = "Score: \(score)"
             }
+        
+               
                 
-            
-                  
-                
-            
+            // the touchesBegan is not underStanding the withname "redDott" because I put "green" and the score with up everytime I tapped on the green target
 
             if let shotSlotNode = self.sprite.childNode(withName: "shotSlot"), shotSlotNode.contains(location) {
                 if let redDotNode = self.childNode(withName: "redDott") {
@@ -691,7 +721,7 @@ class GameScene: SKScene {
                 // addChild(gameScore)
                 addChild(scoreLabel)
                 addChild(button)
-                
+                addChild(highScoreLabel)
            
                 
                 //  addChild(redTarget)
@@ -737,25 +767,7 @@ class GameScene: SKScene {
                 
                 
                 // Create slots
-                for i in 0..<3 {
-                    let (slot1, redDott1) = createSlot(at: CGPoint(x: 120 + (i * 370), y: 560), redDotName: "redDott1")
-                    let (slot2, redDott2) = createSlot(at: CGPoint(x: 120 + (i * 370), y: 370), redDotName: "redDott2")
-                    let (slot3, redDott3) = createSlot(at: CGPoint(x: 120 + (i * 370), y: 200), redDotName: "redDott3")
-                    addChild(slot1)
-                    addChild(slot2)
-                    addChild(slot3)
-                    slot1.addChild(redDott1!)
-                    slot2.addChild(redDott2!)
-                    slot3.addChild(redDott3!)
-                   
-                    
-                    
-                    redDott1?.zPosition = 65
-                    redDott3?.zPosition = 98
-                    redDott2?.zPosition = 99
-                    
-                    // this might be the problem
-                }
+               
                 
             }
          
@@ -784,7 +796,11 @@ class GameScene: SKScene {
    
    
         
-    
+    func create() {
+        
+        
+        
+    }
 
     @objc func playButtonTapped() {
         if isPlaying {
@@ -812,8 +828,9 @@ class GameScene: SKScene {
                 self?.moveTargets()
             }
             
-            
+            // this is amount
             // this is the amount
+            // this
           //  resetTimer()
             // Start the timer for remaining time
          // or any other value you want to set initially
@@ -824,20 +841,27 @@ class GameScene: SKScene {
                 // this puts the timer on the screen and makes it work correctly
                 self.remainingTime -= 1
               //  self.timerLabel.text = "\(self.remainingTime)"
-                if self.remainingTime == 0 {
+                if self.remainingTime == 54 {
+                
                     self.endGame()
-                    self.isPlaying = false
-                    self.isPaused = true
-                    self.timerLabel.text = "Game Over! Score: \(self.score)"
-                    self.audioPlayer?.play()
-                    self.aPlayer?.stop()
-                    self.moveTimer?.invalidate()
-                    self.remainingTime = 60
-                    self.score = 0
-                    self.scoreLabel.text = "Score \(self.score)"
-                  //  self.resetTimer()
-                  
+                    //  self.resetTimer()
+                    //  self.createHomePage()
+                    
+                    //  self.createHomePage()
+                    
+                    
+                    // Check if the user beat the high score
+                    
+                    
+                    
+                    // Reset the score to 0
                 }
+                    
+                              
+                             
+                            
+                                    
+                
               
                
             }
@@ -866,17 +890,25 @@ class GameScene: SKScene {
     // now we need to make this greenTarget slide.
    
     func endGame() {
-        func endGame() {
-            isGameRunning = false
-            moveTimer?.invalidate()
-            moveTimer = nil
-            // any other game-related cleanup code goes here
+        isPlaying = false
+        isPaused = true
+        timerLabel.text = "Game Over! Score: \(score)"
+        audioPlayer?.play()
+        aPlayer?.stop()
+        moveTimer?.invalidate()
+        // Check if the user beat the high score
+        if score > highScore {
+            // Update the high score
+            highScore = score
+            UserDefaults.standard.set(highScore, forKey: "highScore")
+            print("New high score: \(UserDefaults.standard.integer(forKey: "highScore"))")
         }
-
-
-            // Handle the end of the game...
-        }
-    
+        // Reset the score to 0
+        score = 0
+        scoreLabel.text = "Score: \(score)"
+        
+   
+    }
     
  
     

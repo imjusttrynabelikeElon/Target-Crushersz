@@ -20,6 +20,7 @@
 		C96F73BE299C8A0E009DEBEB /* shotSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F73BD299C8A0E009DEBEB /* shotSlot.swift */; };
 		C96F73C0299CB9D5009DEBEB /* targetSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F73BF299CB9D5009DEBEB /* targetSlot.swift */; };
 		C96F73C2299D6E83009DEBEB /* redSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F73C1299D6E83009DEBEB /* redSlot.swift */; };
+		C9A1728129B03E8D00927DF4 /* MJ.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9A1728029B03E8D00927DF4 /* MJ.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		C96F73BD299C8A0E009DEBEB /* shotSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shotSlot.swift; sourceTree = "<group>"; };
 		C96F73BF299CB9D5009DEBEB /* targetSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = targetSlot.swift; sourceTree = "<group>"; };
 		C96F73C1299D6E83009DEBEB /* redSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = redSlot.swift; sourceTree = "<group>"; };
+		C9A1728029B03E8D00927DF4 /* MJ.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MJ.mp3; sourceTree = "<group>"; };
 		C9A7D71F29AA9F2900EA5157 /* cute.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cute.mp3; sourceTree = "<group>"; };
 		C9A7D72329AADF3900EA5157 /* chill.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chill.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -79,6 +81,7 @@
 				C96F73B0299C661D009DEBEB /* Main.storyboard */,
 				C96F73B3299C661F009DEBEB /* Assets.xcassets */,
 				C9A7D71F29AA9F2900EA5157 /* cute.mp3 */,
+				C9A1728029B03E8D00927DF4 /* MJ.mp3 */,
 				C9A7D72329AADF3900EA5157 /* chill.mp3 */,
 				C91ED76F29AD430D00008848 /* intro.mp3 */,
 				C96F73B5299C661F009DEBEB /* LaunchScreen.storyboard */,
@@ -147,6 +150,7 @@
 				C96F73B2299C661D009DEBEB /* Main.storyboard in Resources */,
 				C96F73A9299C661D009DEBEB /* GameScene.sks in Resources */,
 				C943E61F29AAE10B00DBAEFB /* chill.mp3 in Resources */,
+				C9A1728129B03E8D00927DF4 /* MJ.mp3 in Resources */,
 				C96F73B4299C661F009DEBEB /* Assets.xcassets in Resources */,
 				C91ED77029AD430E00008848 /* intro.mp3 in Resources */,
 				C96F73B7299C661F009DEBEB /* LaunchScreen.storyboard in Resources */,
