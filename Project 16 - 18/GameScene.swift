@@ -94,11 +94,11 @@ class GameScene: SKScene {
   
     let backGroundd = SKSpriteNode(imageNamed: "background")
     let intro = SKLabelNode(text: "Welcome To TargetCrushers! Created By Karon Bell!")
-    let playNowButton = SKLabelNode(text: "Tap Red Target To Start a Game")
+    let playNowButton = SKLabelNode(text: "Tap The Spining Red Target To Start A Game")
     var framee: SKShapeNode!
     var shadowNode: SKShapeNode!
     var frameee: SKShapeNode!
-    let founder = SKLabelNode(text: "Founded by Karon Bell")
+    let founder = SKLabelNode(text: "Song Playing is Always Be My Baby Sung By Mariah Carrey")
     var fframee: SKShapeNode!
     let targeet = SKSpriteNode(imageNamed: "greenTarget")
     let targeett = targetSlotRed()
@@ -594,17 +594,17 @@ class GameScene: SKScene {
         founder.verticalAlignmentMode = .center
        founder.zPosition = 99
         addChild(founder)
-        framee = SKShapeNode(rectOf: CGSize(width: 433, height: intro.frame.height + 20), cornerRadius: 10)
-        framee.position = CGPoint(x: 490, y: 111)
+        framee = SKShapeNode(rectOf: CGSize(width: 883, height: intro.frame.height + 20), cornerRadius: 10)
+        framee.position = CGPoint(x: 487, y: 108)
         framee.fillColor = .white
         framee.alpha = 2
         framee.zPosition = 98
 
         addChild(framee)
        
+        // kvfuddofuhvfdoihvfeoierghoefrighgreoihgoe3rihgoerihgoeihrgoeihrtgoeirhgoei3hrgoi4rehgior4eigheoigjoeirghr34oighreoigroeigrhir4o
         
-        
-        if let path = Bundle.main.path(forResource: "MJ", ofType: "mp3") {
+        if let path = Bundle.main.path(forResource: "MC", ofType: "mp3") {
                let url = URL(fileURLWithPath: path)
                do {
                    aaPlayer = try AVAudioPlayer(contentsOf: url)
@@ -1012,7 +1012,7 @@ class GameScene: SKScene {
            }
        }
     func setupAudioPlayer2() {
-           guard let url = Bundle.main.url(forResource: "MJ", withExtension: "mp3") else {
+           guard let url = Bundle.main.url(forResource: "MC", withExtension: "mp3") else {
                return
            }
            
