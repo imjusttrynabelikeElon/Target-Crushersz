@@ -5,6 +5,7 @@
 //  Created by Karon Bell on 2/14/23.
 //
 
+import Foundation
 import SpriteKit
 import UIKit
 import AVFoundation
@@ -17,23 +18,24 @@ import AVFoundation
 // it kinda seems like its working its just the detecting stregth is low. and i have to fix the timer and tap to play button..
 // the target and red dot are now detected so thats not a problem
 
-class GameScene: SKScene {
+class GameScene: SKScene, ObservableObject {
+    
     
     var sprite: SKSpriteNode!
     let myShotSlot = shotSlot()
+    var shotSlotNode: shotSlot? // Define a property for shotSlotNode
     var imageView: UIImageView!
     var slots = [shotSlot]()
     var targets = [shotSlot]()
     var gameScore: SKLabelNode!
     var isPowerBarSelected = false
-    var shotSlotNode: shotSlot? // Define a property for shotSlotNode
     var imageViewCopy: UIImageView!
     var moveTimer: Timer?
     var isPlaying = false
     var powerBarInitialPosition: CGPoint?
     var touchLocation: CGPoint?
     var lastUpdateTime: TimeInterval = 0
-    var remainingTime = 60
+    var remainingTime = 6
     var imageViewRed: UIImageView!
     var imageViewRedBig: UIImageView!
     var imageViewGreenBig: UIImageView!
@@ -47,7 +49,7 @@ class GameScene: SKScene {
     var selectedSlot: SKNode?
     var button: SKLabelNode!
     var highScoreLabel: SKLabelNode!
-    var redDott: SKSpriteNode!
+    
     var highScore = 0
     var isGameRunning = false
     var scoreLabel: SKLabelNode!
@@ -84,7 +86,9 @@ class GameScene: SKScene {
     let red12   = SKSpriteNode(imageNamed: "redTarget")
     let red13   = SKSpriteNode(imageNamed: "redTarget")
     let red14   = SKSpriteNode(imageNamed: "redTarget")
+    var redDott: SKSpriteNode!
     var redDotNodes: [SKNode] = []
+    
     let backGroundd = SKSpriteNode(imageNamed: "background")
     let intro = SKLabelNode(text: "Welcome To TargetCrushers! Created By Karon Bell!")
     let playNowButton = SKLabelNode(text: "Tap The Spining Red Target To Start A Game")
@@ -97,6 +101,20 @@ class GameScene: SKScene {
     let targeett = targetSlotRed()
     let slot =  shotSlot()
     
+    var gameViewModel: GameViewModel?
+    
+    
+    init(gameViewModel: GameViewModel) {
+        self.gameViewModel = gameViewModel
+        super.init(size: gameViewModel.size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        // any additional setup code
+    }
+    
+    var gVM: GameViewModel?
     
     class ShotSlot: SKNode {
         let sprite = SKSpriteNode(imageNamed: "slots")
@@ -105,7 +123,6 @@ class GameScene: SKScene {
         var button: SKLabelNode!
         var scoreLabel: SKLabelNode!
         var redTargets: [SKSpriteNode] = []
-        
         
         
         func configure(at position: CGPoint) {
@@ -136,33 +153,44 @@ class GameScene: SKScene {
         
     }
     
-    func createSlot(at position: CGPoint, slotNumber: Int) -> (SKNode, SKSpriteNode) {
-        let slot = ShotSlot()
-        slot.configure(at: position)
-        
-        let redDot: SKSpriteNode
-        if let existingNode = childNode(withName: "redDot\(slotNumber)") as? SKSpriteNode {
-            redDot = existingNode
-        } else {
-            redDot = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
-            redDot.name = "redDot\(slotNumber)"
-            redDot.position = position
-            redDot.zPosition = 40
-            addChild(redDot)
-        }
-        
-        return (slot, redDot)
-    }
     
     
     override func didMove(to view: SKView) {
         
         
+        gVM = GameViewModel(gameScene: self)
+        
         createHomePage()
+        //  gVM!.playButtonTapped()
         
         
-        setupAudioPlayer()
-        setupAudioPlayer2()
+        //   gVM!.resetTimer()
+        gVM!.setupAudioPlayer()
+        gVM!.setupAudioPlayer2()
+        gVM!.player()
+        
+        
+        
+        
+        func createSlot(at position: CGPoint, slotNumber: Int) -> (SKNode, SKSpriteNode) {
+            let slot = GameScene.ShotSlot()
+            slot.configure(at: position)
+            
+            let redDot: SKSpriteNode
+            if let existingNode =  childNode(withName: "redDot\(slotNumber)") as? SKSpriteNode {
+                redDot = existingNode
+            } else {
+                redDot = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
+                redDot.name = "redDot\(slotNumber)"
+                redDot.position = position
+                redDot.zPosition = 40
+                addChild(redDot)
+            }
+            
+            return (slot, redDot)
+        }
+        
+        
         
         redTarget.size = CGSize(width: 80, height: 80)
         redTarget.position = CGPoint(x: size.width/2 - 250, y: size.height/2)
@@ -323,6 +351,7 @@ class GameScene: SKScene {
         button.fontName = "Arial"
         button.name = "playButton"
         
+        
         buttonFrame = SKShapeNode(rectOf: CGSize(width: button.frame.width + 90, height: button.frame.height + 90), cornerRadius: 5)
         buttonFrame.fillColor = .black
         buttonFrame.strokeColor = .white
@@ -414,8 +443,18 @@ class GameScene: SKScene {
         moveTimer?.fire()
         
         
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Call your existing touchesBegan function here
+        gVM?.touchesBegan(touches, with: event)
+        
+        
         
     }
+    
+    
     
     
     
@@ -429,6 +468,7 @@ class GameScene: SKScene {
         if homePageCreated {
             
             aaPlayer?.play()
+            
         }
         
         
@@ -526,384 +566,17 @@ class GameScene: SKScene {
         
         // kvfuddofuhvfdoihvfeoierghoefrighgreoihgoe3rihgoerihgoeihrgoeihrtgoeirhgoei3hrgoi4rehgior4eigheoigjoeirghr34oighreoigroeigrhir4o
         
-        if let path = Bundle.main.path(forResource: "MC", ofType: "mp3") {
-            let url = URL(fileURLWithPath: path)
-            do {
-                aaPlayer = try AVAudioPlayer(contentsOf: url)
-                aaPlayer?.play()
-                aaPlayer?.numberOfLoops = -1
-            } catch {
-                print("Error loading audio file")
-            }
-        }
-        
-    }
-    
-    
-    
-    
-    
-    func moveTargets() {
-        let screenSize = UIScreen.main.bounds.size
-        let xRange = UInt32(screenSize.width - 50)
-        let yRange = UInt32(screenSize.height - 50)
-        
-        // Animate the red targets
-        for redTarget in redTargets {
-            let randomX = CGFloat(arc4random_uniform(xRange)) - 110
-            let randomY = CGFloat(arc4random_uniform(yRange))
-            let destination = CGPoint(x: randomX, y: randomY)
-            let moveAction = SKAction.move(to: destination, duration: 2.0)
-            redTarget.run(moveAction)
-            
-        }
-        
-        // Animate the green targets
-        for greenTarget in greenTargets {
-            let randomX = CGFloat(arc4random_uniform(xRange)) - 110
-            let randomY = CGFloat(arc4random_uniform(yRange))
-            let destination = CGPoint(x: randomX, y: randomY)
-            let moveAction = SKAction.move(to: destination, duration: 2.0)
-            greenTarget.run(moveAction)
-            
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        for touch in touches {
-            let location = touch.location(in: self)
-            
-            
-            
-            
-            let tappedNode = nodes(at: location).first(where: { redDotNodes.contains($0) })
-            
-            if let redDotNode = tappedNode {
-                // handle touch on red dot here
-                
-                print("Tapped on red dot")
-                
-                for greenTargetNode in greenTargets {
-                    if greenTargetNode.contains(redDotNode.position) {
-                        score += 1
-                        print("Green target tapped at red dot")
-                        scoreLabel.text = "Score: \(score)"
-                        print(score)
-                    }
-                }
-                
-                for redTargetNode in redTargets {
-                    if redTargetNode.contains(redDotNode.position) {
-                        score -= 1
-                        print("Red target tapped at red dot")
-                        scoreLabel.text = "Score: \(score)"
-                        print(score)
-                    }
-                }
-            }
-            
-            
-            
-            // the touchesBegan is not underStanding the withname "redDott" because I put "green" and the score with up everytime I tapped on the green target
-            
-            if let shotSlotNode = self.sprite.childNode(withName: "shotSlot"), shotSlotNode.contains(location) {
-                if let redDotNode = self.childNode(withName: "redDott") {
-                    redDotNode.position = location
-                    print("Moved red dot to location: \(location)")
-                }
-            }
-            
-            if let powerBarNode = self.sprite.childNode(withName: "powerBar"), powerBarNode.contains(location) {
-                isPowerBarSelected = true
-                powerBarInitialPosition = powerBarNode.position
-                touchLocation = location
-                lastUpdateTime = touch.timestamp
-            }
-            
-            // Check if the spinning red target was tapped
-            if let redTargetNodes = self.children.filter({ $0.name == "bigTarget" }) as? [SKSpriteNode],
-               let redTargetNode = redTargetNodes.first(where: { $0.contains(location) }) {
-                
-                // Loop through the array of red target nodes and add them to the scene
-                
-                
-                // Show other children
-                for child in self.children {
-                    if child.isHidden {
-                        child.isHidden = false
-                        
-                    }
-                    
-                }
-                
-                
-                addChild(buttonFrame)
-                addChild(backGround)
-                addChild(scoreLabel)
-                addChild(button)
-                addChild(highScoreLabel)
-                
-                
-                view?.addSubview(timerLabel)
-                
-                for target in redTargets {
-                    addChild(target)
-                    
-                    
-                }
-                
-                for target in greenTargets {
-                    addChild(target)
-                }
-                
-                
-                
-                backGroundd.removeFromParent()
-                intro.removeFromParent()
-                framee.removeFromParent()
-                BigTarget.removeFromParent()
-                shadowNode.removeFromParent()
-                playNowButton.removeFromParent()
-                founder.removeFromParent()
-                framee.removeFromParent()
-                frameee.removeFromParent()
-                fframee.removeFromParent()
-                
-            }
-            
-        }
-        
-        // Check if the play button was tapped
-        guard let touch = touches.first else { return }
-        let location = touch.location(in: self)
-        let touchedNodes = nodes(at: location)
-        
-        for node in touchedNodes {
-            if node.name == "playButton" {
-                print("Play button tapped")
-                playButtonTapped()
-            }
-        }
-        
-    }
-    
-    
-    @objc func playButtonTapped() {
-        if isPlaying {
-            // Pause the game
-            
-            
-            isPlaying = false
-            //  timerLabel.text = "\(remainingTime)"
-            isPaused = true // toggle the paused state
-            button.text = "Tap to Play"
-            // Pause game logic
-            aPlayer?.pause()
-            moveTimer?.invalidate()
-        } else {
-            // Start the game
-            
-            isPlaying = true
-            //      aPlayer?.play()
-            print("Tap to play!")
-            isPaused = false // toggle the paused state
-            button.text = "Pause Game"
-            // Start game logic
-            moveTimer?.invalidate()
-            moveTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
-                self?.moveTargets()
-            }
-            
-            // this is amount
-            // this is the amount
-            // this
-            //  resetTimer()
-            // Start the timer for remaining time
-            // or any other value you want to set initially
-            //timerLabel.text = "\(remainingTime)"
-            moveTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-                guard let self = self else { return }
-                self.timerLabel.text = "\(self.remainingTime)"
-                // this puts the timer on the screen and makes it work correctly
-                self.remainingTime -= 1
-                //  self.timerLabel.text = "\(self.remainingTime)"
-                if self.remainingTime == 0 {
-                    
-                    self.endGame()
-                    //  self.resetTimer()
-                    //  self.createHomePage()
-                    
-                    //  self.createHomePage()
-                    
-                    
-                    // Check if the user beat the high score
-                    
-                    
-                    
-                    // Reset the score to 0
-                }
-                
-            }
-            
-        }
-        
-        if remainingTime == 0 {
-            
-        }
-        
-        // self.resetTimer()
-    }
-    
-    
-    func pauseGame() {
-        isPlaying = false
-        moveTimer?.invalidate()
-        moveTimer = nil
-        // Pause the game animation
-        isGameRunning = false
-        button.text = "Tap to Play"
-        // Add code to pause the game animation
-    }
-    
-    // now we need to make this greenTarget slide.
-    
-    func endGame() {
-        isPlaying = false
-        isPaused = true
-        if isPaused {
-            button.text = "Play Again"
-            
-            
-        } else {
-            aaPlayer?.play()
-        }
         
         
-        
-        timerLabel.text = "Game Over! Score: \(score)"
-        resetTimer()
-        aaPlayer?.stop()
-        audioPlayer?.play()
-        aPlayer?.stop()
-        
-        moveTimer?.invalidate()
-        // Check if the user beat the high score
-        if score > highScore {
-            // Update the high score
-            highScore = score
-            UserDefaults.standard.set(highScore, forKey: "highScore")
-            print("New high score: \(UserDefaults.standard.integer(forKey: "highScore"))")
-        }
-        // Reset the score to 0
-        score = 0
-        scoreLabel.text = "Score: \(score)"
-        
-        
+        //    playNowButtonn()
         
         
     }
     
     
-    func startTimer() {
-        moveTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            self.remainingTime -= 1
-            self.timerLabel.text = "\(self.remainingTime)"
-            if self.remainingTime == 0 {
-                self.endGame()
-                self.audioPlayer?.play()
-            }
-        }
-    }
-    
-    func resetTimer() {
-        remainingTime = 60 // or any other value you want to set initially
-        timerLabel.text = "\(remainingTime)"
-        moveTimer?.invalidate()
-        moveTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            self.remainingTime -= 1
-            self.timerLabel.text = "\(self.remainingTime)"
-            if self.remainingTime == 0 {
-                self.endGame()
-                self.isPlaying = false
-                self.isPaused = true
-                self.timerLabel.text = "Game Over!: Score: \(self.score)"
-                self.audioPlayer?.play()
-                self.moveTimer?.invalidate()
-            }
-        }
-    }
     
     
     
-    func slotTapped(_ slot: shotSlot) {
-        // Make the slot sprite blink
-        print("Tapped on slot")
-        let blinkOut = SKAction.fadeAlpha(to: 0.2, duration: 0.15)
-        let blinkIn = SKAction.fadeAlpha(to: 1, duration: 0.15)
-        let blink = SKAction.sequence([blinkOut, blinkIn])
-        let blinkForever = SKAction.repeatForever(blink)
-        slot.sprite.run(blinkForever)
-        print("Started blinking")
-        // Handle the slot tap logic
-        if slot === shotSlotNode {
-            print("Tapped on shot slot node")
-        }
-    }
-    
-    
-    func createGreenTarget(at position: CGPoint)  {
-        
-        targeet.position = position
-        targeet.name = "greenTarget"
-        targeet.zPosition = 50
-        // addChild(targeet)
-        
-    }
-    
-    
-    func createRedTarget(at position: CGPoint)  {
-        
-        
-        targeett.configure(at: position)
-        
-        targeett.configure(at: position)
-        
-        
-        //   addChild(targeett)
-        //  slotsRed.append(targeett)
-        
-    }
-    
-    func setupAudioPlayer() {
-        guard let url = Bundle.main.url(forResource: "cute", withExtension: "mp3") else {
-            return
-        }
-        
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.prepareToPlay()
-        } catch {
-            print("Error loading audio file: \(error)")
-        }
-    }
-    func setupAudioPlayer2() {
-        guard let url = Bundle.main.url(forResource: "MC", withExtension: "mp3") else {
-            return
-        }
-        
-        do {
-            aPlayer = try AVAudioPlayer(contentsOf: url)
-            aPlayer?.prepareToPlay()
-        } catch {
-            print("Error loading audio file: \(error)")
-        }
-    }
-    
-    
-    // ...
     
     
     override func update(_ currentTime: TimeInterval) {
