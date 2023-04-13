@@ -13,7 +13,7 @@ import Foundation
 
 
 
-
+//
 class GameViewModel: SKScene, ObservableObject {
     var gS: GameScene?
     
